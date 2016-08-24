@@ -1,0 +1,8 @@
+{
+    "MailSettings": {
+        "ToAddress":  "vitali.dettling@hotmail.com"
+    },
+    "ConnctionStrings": {
+        "DBConnectionContext": "Server=registrationmanager-01-db-server.database.windows.net;Database=Server=tcp:registrationmanager-01-db-server.database.windows.net,1433;Initial Catalog=RegistrationManager-01-db;Persist Security Info=False;User ID=DBServiceAdmin;Password=RegitMgtDB!;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=False;Connection Timeout=30;"
+    }
+}
