@@ -17,6 +17,7 @@ namespace RegistrationManager
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseSetting("detailedErrors", "true")//Provides detailed information about the API
                 .Build();
 
             host.Run();

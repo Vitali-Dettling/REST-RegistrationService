@@ -19,9 +19,10 @@ namespace RegistrationManager
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("config.json")
+                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)                
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -57,8 +58,16 @@ namespace RegistrationManager
         public void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
             DbSeeding seeder,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IHostingEnvironment environment)
         {
+            if (environment.IsDevelopment())
+            {
+                loggerFactory.AddDebug(LogLevel.Information);
+                //More presise error information
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseMvc(config =>
             {
                 config.MapRoute(
