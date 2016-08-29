@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RegistrationManager.Models
 {
@@ -16,6 +17,13 @@ namespace RegistrationManager.Models
         public IEnumerable<Credential> GetAllCredentials()
         {
             return dbContext.DbCredentials.ToList();
+        }
+
+        public async Task CreateEntry(Credential newCredentials)
+        { 
+            dbContext.Add(newCredentials);
+            //Push the default data to the actual DB.
+            await dbContext.SaveChangesAsync();
         }
     }
 }

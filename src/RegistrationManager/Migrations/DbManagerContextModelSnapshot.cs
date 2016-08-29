@@ -16,7 +16,7 @@ namespace RegistrationManager.Migrations
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RegistrationManager.Models.Credentials", b =>
+            modelBuilder.Entity("RegistrationManager.Models.Credential", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -28,7 +28,7 @@ namespace RegistrationManager.Migrations
                     b.Property<string>("Email")
                         .IsRequired();
 
-                    b.Property<string>("NewPassword")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 18);
 

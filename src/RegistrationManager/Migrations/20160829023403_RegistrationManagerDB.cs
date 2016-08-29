@@ -17,7 +17,7 @@ namespace RegistrationManager.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ConfirmPassword = table.Column<string>(maxLength: 18, nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    NewPassword = table.Column<string>(maxLength: 18, nullable: false)
+                    Password = table.Column<string>(maxLength: 18, nullable: false)
                 },
                 constraints: table =>
                 {

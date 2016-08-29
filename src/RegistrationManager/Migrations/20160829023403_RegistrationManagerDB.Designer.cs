@@ -8,7 +8,7 @@ using RegistrationManager.Models;
 namespace RegistrationManager.Migrations
 {
     [DbContext(typeof(DbManagerContext))]
-    [Migration("20160824112245_RegistrationManagerDB")]
+    [Migration("20160829023403_RegistrationManagerDB")]
     partial class RegistrationManagerDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,7 +17,7 @@ namespace RegistrationManager.Migrations
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RegistrationManager.Models.Credentials", b =>
+            modelBuilder.Entity("RegistrationManager.Models.Credential", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -29,7 +29,7 @@ namespace RegistrationManager.Migrations
                     b.Property<string>("Email")
                         .IsRequired();
 
-                    b.Property<string>("NewPassword")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasAnnotation("MaxLength", 18);
 

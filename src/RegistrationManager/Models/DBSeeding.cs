@@ -6,10 +6,13 @@ namespace RegistrationManager.Models
     public class DbSeeding
     {
         private DbManagerContext dbContext;
+        private IRegistrationsRepository repository;
 
-        public DbSeeding(DbManagerContext dbManagerContext)
+        public DbSeeding(DbManagerContext dbManagerContext, 
+            IRegistrationsRepository registrationRepository)
         {
             dbContext = dbManagerContext;
+            repository = registrationRepository;
         }
 
         public async Task EnsureSeedData()
@@ -18,16 +21,13 @@ namespace RegistrationManager.Models
             {
                 var credentialsDefault = new Credential()
                 {
-                    ID = 0,
+                    ID = 0000000,
                     Email = "vdettling@web.de",
-                    NewPassword = "Default1234",
+                    Password = "Default1234",
                     ConfirmPassword = "Default1234"
                 };
 
-                dbContext.Add(credentialsDefault);
-
-                //Push the default data to the actual DB.
-                await dbContext.SaveChangesAsync();
+                await repository.CreateEntry(credentialsDefault);
             }
 
         }

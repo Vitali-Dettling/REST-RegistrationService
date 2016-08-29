@@ -59,9 +59,17 @@ namespace RegistrationManager.Controllers.Api
         {
             if (ModelState.IsValid)
             {
-                return Created($"api/registration/{credentials.Email}", credentials);
+                try
+                {
+                    repository.CreateEntry(credentials);
+                    return Created($"api/registration/{credentials}", credentials);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError($"DB request failed. {ex.Message}");
+                    return Redirect("/error");
+                }
             }
-
             return BadRequest("Bad Request");
         }
     }
