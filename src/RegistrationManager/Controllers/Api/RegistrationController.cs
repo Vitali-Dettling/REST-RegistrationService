@@ -35,6 +35,7 @@ namespace RegistrationManager.Controllers.Api
             try
             {
                 var allRegistrations = repository.GetAllCredentials();
+                //200
                 return Ok(allRegistrations);
             }
             catch (Exception ex)
@@ -49,8 +50,10 @@ namespace RegistrationManager.Controllers.Api
         {
             if (validation.Login(credentials))
             {
+                //200
                 return Ok();
             }
+            //400
             return BadRequest("Validation Failed");
         }
 
@@ -61,8 +64,13 @@ namespace RegistrationManager.Controllers.Api
             {
                 try
                 {
-                    repository.CreateEntry(credentials);
-                    return Created($"api/registration/{credentials}", credentials);
+                    if (repository.CreateEntry(credentials).Result)
+                    {
+                        //201
+                        return Created($"api/registration/{credentials}", credentials);
+                    }
+                    //403
+                    return Forbid();
                 }
                 catch (Exception ex)
                 {
@@ -70,6 +78,7 @@ namespace RegistrationManager.Controllers.Api
                     return Redirect("/error");
                 }
             }
+            //400
             return BadRequest("Bad Request");
         }
     }

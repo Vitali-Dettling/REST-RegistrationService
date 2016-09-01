@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RegistrationManager.Models
@@ -7,6 +8,6 @@ namespace RegistrationManager.Models
     {
         IEnumerable<Credential> GetAllCredentials();
 
-        Task CreateEntry(Credential newCredentials);
+        Task<Boolean> CreateEntry(Credential newCredentials);
     }
 }
