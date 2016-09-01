@@ -17,7 +17,7 @@ namespace RegistrationManager.Models
 
         public async Task<Boolean> CreateEntry(Credential newCredentials)
         {
-            if (!CheckDoubleEntry(newCredentials))
+            if (!CheckDBEntries(newCredentials))
             {
                 dbContext.Add(newCredentials);
                 //Push the default data to the actual DB.
@@ -37,7 +37,7 @@ namespace RegistrationManager.Models
         /// <returns>
         /// True if an entry exist in the DB.
         /// </returns>
-        private Boolean CheckDoubleEntry(Credential newCredentials)
+        public Boolean CheckDBEntries(Credential newCredentials)
         {
             //TODO Iteration trough the DB is to slow, needs to be improved, maybe by LINQ to SQL? 
             var check = false;

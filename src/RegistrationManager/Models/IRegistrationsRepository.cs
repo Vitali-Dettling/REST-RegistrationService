@@ -9,5 +9,7 @@ namespace RegistrationManager.Models
         IEnumerable<Credential> GetAllCredentials();
 
         Task<Boolean> CreateEntry(Credential newCredentials);
+
+        Boolean CheckDBEntries(Credential newCredentials);
     }
 }
