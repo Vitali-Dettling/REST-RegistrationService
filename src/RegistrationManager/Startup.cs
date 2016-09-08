@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using RegistrationManager.Controllers;
 using RegistrationManager.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RegistrationManager
 {
@@ -41,6 +42,15 @@ namespace RegistrationManager
                 config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            //Inject the user identity framwork. Moreover, here one can config the required identification details.
+            services.AddIdentity<UserIdentity, IdentityRole>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 6;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+            })
+            .AddEntityFrameworkStores<DbManagerContext>();
+
             //Injection of the IRegistrationRepository for later testing
             services.AddScoped<IRegistrationsRepository, RegistrationsRepository>();
 
@@ -54,20 +64,41 @@ namespace RegistrationManager
             services.AddLogging();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline. 
+        /// Note: the order matters to ensure which framework will be called first.
+        /// </summary>
+        /// <param name="app">
+        /// The service which is proveded
+        /// </param>
+        /// <param name="seeder">
+        /// Initialize the database, in case no entry exists.
+        /// </param>
+        /// <param name="loggerFactory">
+        /// Logs the process of the service, in case of an error.
+        /// </param>
+        /// <param name="environment">
+        /// Environment variable in order to ensure whether it is a development environment or a runtime environment.
+        /// </param>
         public void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
             DbSeeding seeder,
             ILoggerFactory loggerFactory,
             IHostingEnvironment environment)
         {
+            //Only while debuging
             if (environment.IsDevelopment())
             {
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 loggerFactory.AddDebug(LogLevel.Information);
+                loggerFactory.AddDebug();
                 //More presise error information
                 app.UseDeveloperExceptionPage();
             }
 
+            //The service is using the Identity framework.
+            app.UseIdentity();
+
+            //Should be one of the last calls.
             app.UseMvc(config =>
             {
                 config.MapRoute(
@@ -76,12 +107,7 @@ namespace RegistrationManager
                     defaults: new { controller = "Index", action = "Interfaces" });
             });
 
-#if DEBUG   //Only while debuging
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug(LogLevel.Information);
-            loggerFactory.AddDebug();
-#endif            
-            //Last call becaus synchronised.
+            //Last call because synchronised
             seeder.EnsureSeedData().Wait();
         }
     }

@@ -7,63 +7,51 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration.Json;
 using RegistrationManager.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace RegistrationManager.Controllers.Api
 {
     [Route("api/")]
     public class RegistrationController : Controller
     {
+        //TODO Using the logger
         private ILogger<RegistrationController> logger;
         private IRegistrationsRepository repository;
+        private SignInManager<UserIdentity> signInMgt;
 
         public RegistrationController(DbManagerContext dbMangerInjection, 
             ILogger<RegistrationController> loggerFactory, 
-            IRegistrationsRepository registrationRepository)
+            IRegistrationsRepository registrationRepository,
+            SignInManager<UserIdentity> signInManager)
         {
             //DB queries will be implemented in the repository call (pattern).
             repository = registrationRepository;
             logger = loggerFactory;
+            signInMgt = signInManager;
         }
         
-        [HttpGet("registrations")]
-        public IActionResult Get()
-        {
-            try
-            {
-                var allRegistrations = repository.GetAllCredentials();
-                //200
-                return Ok(allRegistrations);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"Faild to get all registrations {ex.Message}");
-                return Redirect("/error");
-            }
-        }
-
         [HttpPost("login")]
-        public IActionResult Login([FromBody] Credential credentials)
+        public async Task<IActionResult> Login([FromBody] Credential credentials)
         {
             if (ModelState.IsValid)
             {
-                try
+                
+                var result = await signInMgt.PasswordSignInAsync(credentials.Email, credentials.Password, true, false);
+
+                if (result.Succeeded)
                 {
-                    if (repository.CheckDBEntries(credentials))
-                    {
-                        //200
-                        return Ok($"api/login/");
-                    }
-                    //404
-                    return NotFound();
+                    //200
+                    return Ok();
                 }
-                catch (Exception ex)
+                else
                 {
-                    logger.LogError($"DB request failed. {ex.Message}");
+                    ModelState.AddModelError("", "Email or password is incorrect");
+                    logger.LogError($"DB request failed, maybe because email and/or password is incorrect?");
                     return Redirect("/error");
                 }
             }
             //400
-            return BadRequest("Validation Failed");
+            return BadRequest();
         }
 
         [HttpPost("registration")]
@@ -89,7 +77,23 @@ namespace RegistrationManager.Controllers.Api
                 }
             }
             //400
-            return BadRequest("Bad Request");
+            return BadRequest();
+        }
+
+        [HttpGet("registrations")]
+        public IActionResult Get()
+        {
+            try
+            {
+                var allRegistrations = repository.GetAllCredentials();
+                //200
+                return Ok(allRegistrations);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Faild to get all registrations {ex.Message}");
+                return Redirect("/error");
+            }
         }
     }
 }

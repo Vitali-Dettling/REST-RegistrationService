@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace RegistrationManager.Models
             var check = false;
             foreach (var credential in dbContext.DbCredentials)
             {
-                if (credential.Email.Equals(newCredentials.Email) && 
+                if (credential.Email.Equals(newCredentials.Email) &&
                     credential.Password.Equals(newCredentials.Password))
                 {
                     check = true;

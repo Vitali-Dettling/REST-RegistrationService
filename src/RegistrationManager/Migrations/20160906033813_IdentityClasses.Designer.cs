@@ -8,9 +8,10 @@ using RegistrationManager.Models;
 namespace RegistrationManager.Migrations
 {
     [DbContext(typeof(DbManagerContext))]
-    partial class DbManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20160906033813_IdentityClasses")]
+    partial class IdentityClasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")

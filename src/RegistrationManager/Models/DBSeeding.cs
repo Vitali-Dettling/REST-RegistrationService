@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RegistrationManager.Models
@@ -7,30 +8,35 @@ namespace RegistrationManager.Models
     {
         private DbManagerContext dbContext;
         private IRegistrationsRepository repository;
+        private UserManager<UserIdentity> userManagerIdentity;
 
         public DbSeeding(DbManagerContext dbManagerContext, 
-            IRegistrationsRepository registrationRepository)
+            IRegistrationsRepository registrationRepository,
+            UserManager<UserIdentity> userMangerIdentity)
         {
             dbContext = dbManagerContext;
             repository = registrationRepository;
+            userManagerIdentity = userMangerIdentity;
         }
 
         public async Task EnsureSeedData()
         {
-            if (!dbContext.DbCredentials.Any())
+            //Check whether the default user exists.
+            if (await userManagerIdentity.FindByEmailAsync("vdettling@web.de") == null)
             {
-                var credentialsDefault = new Credential()
+                var user = new UserIdentity()
                 {
-                    ID = 0000000,
+                    UserName = "vdettling@web.de",
                     Email = "vdettling@web.de",
-                    Password = "Default1234",
-                    ConfirmPassword = "Default1234"
                 };
 
-                await repository.CreateEntry(credentialsDefault);
+                //Stores the default user infromation in the database
+                var result = await userManagerIdentity.CreateAsync(user, "P@ssw0rd!");
+                if (!result.Succeeded)
+                {
+                    throw new TaskSchedulerException("Seeding of default user was not successful.");
+                }
             }
-
         }
-
     }
 }
