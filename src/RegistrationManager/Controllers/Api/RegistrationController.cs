@@ -34,8 +34,7 @@ namespace RegistrationManager.Controllers.Api
         public async Task<IActionResult> Login([FromBody] Credential credentials)
         {
             if (ModelState.IsValid)
-            {
-                
+            {   
                 var result = await signInMgt.PasswordSignInAsync(credentials.Email, credentials.Password, true, false);
 
                 if (result.Succeeded)
@@ -57,18 +56,24 @@ namespace RegistrationManager.Controllers.Api
         [HttpPost("registration")]
         public IActionResult Post([FromBody] Credential credentials)
         {
+            //TODO Where to check for the equality of password and new password???
             if (ModelState.IsValid && 
                 credentials.ConfirmPassword != null)
             {
                 try
                 {
-                    if (repository.CreateEntry(credentials).Result)
+                    if (!User.Identity.IsAuthenticated)
                     {
-                        //201
-                        return Created($"api/registration/{credentials}", credentials);
+                        if (repository.CreateEntry(credentials).Result)
+                        {
+                            //201 The registation was added to the database,
+                            return Created($"api/registration/{credentials}", credentials);
+                        }
+                        //403 User could not be added to the database.
+                        return Forbid("User could not be added to the database.");
                     }
-                    //403
-                    return Forbid();
+                    //300 User is already stored in the database.
+                    return Redirect("User is already stored in the database.");
                 }
                 catch (Exception ex)
                 {

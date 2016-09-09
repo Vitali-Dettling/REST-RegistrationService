@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 using RegistrationManager.Controllers;
 using RegistrationManager.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RegistrationManager
 {
@@ -31,13 +32,23 @@ namespace RegistrationManager
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)// TODO* Bug is not working any more? ->, IHostingEnvironment environment)
         {
             //Injects also the config.json file, for example for the DB connection.
             services.AddSingleton(Configuration);
             // Add framework services.
            
-            services.AddMvc().AddJsonOptions(config =>
+            services.AddMvc(config =>
+            {
+#if !DEBUG //TODO* Has to change to IHostingEnvironment environment used to work but sudenly not any more, see above.
+            //  if (environment.IsProduction())
+                {
+                    //Redirects to a https, only used in productions
+                    config.Filters.Add(new RequireHttpsAttribute());
+                }
+#endif
+            })
+            .AddJsonOptions(config =>
             {   //All Json file formates will be resulved via camel cases.  
                 config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
