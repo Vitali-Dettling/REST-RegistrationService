@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration.Json;
 using RegistrationManager.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace RegistrationManager.Controllers.Api
 {
@@ -31,7 +33,7 @@ namespace RegistrationManager.Controllers.Api
         }
         
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] Credential credentials)
+        public async Task<IActionResult> LoginPost([FromBody] Credential credentials)
         {
             if (ModelState.IsValid)
             {   
@@ -54,7 +56,7 @@ namespace RegistrationManager.Controllers.Api
         }
 
         [HttpPost("registration")]
-        public IActionResult Post([FromBody] Credential credentials)
+        public IActionResult RegistrationPost([FromBody] Credential credentials)
         {
             //TODO Where to check for the equality of password and new password???
             if (ModelState.IsValid && 
@@ -85,20 +87,7 @@ namespace RegistrationManager.Controllers.Api
             return BadRequest();
         }
 
-        [HttpGet("registrations")]
-        public IActionResult Get()
-        {
-            try
-            {
-                var allRegistrations = repository.GetAllCredentials();
-                //200
-                return Ok(allRegistrations);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"Faild to get all registrations {ex.Message}");
-                return Redirect("/error");
-            }
-        }
+        //TODO Services: Logout and Check whether one is locked in?
+        
     }
 }

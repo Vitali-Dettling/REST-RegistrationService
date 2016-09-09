@@ -6,10 +6,6 @@ namespace RegistrationManager.Models
 {
     public interface IRegistrationsRepository
     {
-        IEnumerable<Credential> GetAllCredentials();
-
         Task<Boolean> CreateEntry(Credential newCredentials);
-
-        Boolean CheckDBEntries(Credential newCredentials);
     }
 }

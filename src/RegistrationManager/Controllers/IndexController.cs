@@ -25,7 +25,7 @@ namespace RegistrationManager.Controllers
         {
             logger.LogInformation("No API has been called yet.");
             //TODO: Defelaut page to get the interface descriptions.
-            return Ok(repository.GetAllCredentials());
+            return Ok();
         }
     }
 }
