@@ -13,10 +13,10 @@ namespace RegistrationManager.Models
     public class RegistrationsRepository : IRegistrationsRepository
     {
         private DbManagerContext dbContext;
-        private UserManager<UserIdentity> userManagerIdentity;
+        private UserManager<DbUserIdentity> userManagerIdentity;
 
         public RegistrationsRepository(DbManagerContext dbManagerContext,
-            UserManager<UserIdentity> userMangerIdentity)
+            UserManager<DbUserIdentity> userMangerIdentity)
         {
             dbContext = dbManagerContext;
             userManagerIdentity = userMangerIdentity;
@@ -25,7 +25,7 @@ namespace RegistrationManager.Models
         public async Task<Boolean> CreateEntry(Credential newCredentials)
         {
             //TODO Make that better, is realy redundant.
-            var user = new UserIdentity()
+            var user = new DbUserIdentity()
             {
                 UserName = newCredentials.Email,
                 Email = newCredentials.Email,

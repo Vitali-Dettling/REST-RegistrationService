@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace RegistrationManager.Controllers.Api
 {
@@ -19,12 +21,12 @@ namespace RegistrationManager.Controllers.Api
         //TODO Using the logger
         private ILogger<RegistrationController> logger;
         private IRegistrationsRepository repository;
-        private SignInManager<UserIdentity> signInMgt;
+        private SignInManager<DbUserIdentity> signInMgt;
 
         public RegistrationController(DbManagerContext dbMangerInjection, 
             ILogger<RegistrationController> loggerFactory, 
             IRegistrationsRepository registrationRepository,
-            SignInManager<UserIdentity> signInManager)
+            SignInManager<DbUserIdentity> signInManager)
         {
             //DB queries will be implemented in the repository call (pattern).
             repository = registrationRepository;
@@ -48,6 +50,7 @@ namespace RegistrationManager.Controllers.Api
                 {
                     ModelState.AddModelError("", "Email or password is incorrect");
                     logger.LogError($"DB request failed, maybe because email and/or password is incorrect?");
+                    //TODO Implement the error redirection 
                     return Redirect("/error");
                 }
             }
@@ -80,14 +83,12 @@ namespace RegistrationManager.Controllers.Api
                 catch (Exception ex)
                 {
                     logger.LogError($"DB request failed. {ex.Message}");
+                    //TODO Implement the error redirection
                     return Redirect("/error");
                 }
             }
             //400
             return BadRequest();
-        }
-
-        //TODO Services: Logout and Check whether one is locked in?
-        
+        }        
     }
 }

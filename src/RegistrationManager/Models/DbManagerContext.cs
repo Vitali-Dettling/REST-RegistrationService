@@ -12,7 +12,7 @@ namespace RegistrationManager.Models
     /// <summary>
     /// Represents all types of data that will be stored in the database.
     /// </summary>
-    public class DbManagerContext : IdentityDbContext<UserIdentity>
+    public class DbManagerContext : IdentityDbContext<DbUserIdentity>
     {
         private IConfigurationRoot config;
 
@@ -24,7 +24,7 @@ namespace RegistrationManager.Models
 
         public DbSet<Credential> DbCredentials { get; set; }
 
-        public DbSet<UserIdentity> DbUserIdentity { get; set; }
+        public DbSet<DbUserIdentity> DbUserIdentity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

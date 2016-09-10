@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Registration Manger API";
+}
+
+
+<h1>This is a discription about the RegistationManger API.</h1>
+
+@{ 
+#if DEBUG
+    var swaggerUi = "http://localhost:60647/swagger/ui";
+    var swaggerJson = "http://localhost:60647/swagger/v1/swagger.json";
+#else
+    var swaggerUi = "http://registrationmanager-01.azurewebsites.net/swagger/ui";
+    var swaggerJson = "http://registrationmanager-01.azurewebsites.net/swagger/v1/swagger.json";
+#endif
+}
+
+<!--https://github.com/domaindrivendev/Ahoy-->
+
+<a href=@swaggerUi target="_blank">Swagger API Description</a> </br>
+<a href=@swaggerJson target="_blank">Swagger API Json</a>
+

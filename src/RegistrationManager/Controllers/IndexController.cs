@@ -21,11 +21,11 @@ namespace RegistrationManager.Controllers
             logger = loggerFactory;
         }
 
-        public IActionResult Interfaces()
+        public IActionResult API()
         {
             logger.LogInformation("No API has been called yet.");
             //TODO: Defelaut page to get the interface descriptions.
-            return Ok();
+            return View();
         }
     }
 }

@@ -54,13 +54,16 @@ namespace RegistrationManager
             });
 
             //Inject the user identity framwork. Moreover, here one can config the required identification details.
-            services.AddIdentity<UserIdentity, IdentityRole>(config =>
+            services.AddIdentity<DbUserIdentity, IdentityRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 6;
                 config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
             })
             .AddEntityFrameworkStores<DbManagerContext>();
+
+            //Inject an implementation of ISwaggerProvider with defaulted settings applied
+            services.AddSwaggerGen();
 
             //Injection of the IRegistrationRepository for later testing
             services.AddScoped<IRegistrationsRepository, RegistrationsRepository>();
@@ -109,13 +112,19 @@ namespace RegistrationManager
             //The service is using the Identity framework.
             app.UseIdentity();
 
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUi();
+            
             //Should be one of the last calls.
             app.UseMvc(config =>
             {
                 config.MapRoute(
                     name: "Default",
                     template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Index", action = "Interfaces" });
+                    defaults: new { controller = "Index", action = "API" });
             });
 
             //Last call because synchronised

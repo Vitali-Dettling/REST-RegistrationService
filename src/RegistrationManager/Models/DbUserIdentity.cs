@@ -6,7 +6,7 @@ namespace RegistrationManager.Models
     /// <summary>
     /// Extents the database, where the user information are stored with additional properties.  
     /// </summary>
-    public class UserIdentity : IdentityUser
+    public class DbUserIdentity : IdentityUser
     {
         /// <summary>
         /// Additional stored column in the database and the column type is DataTime.

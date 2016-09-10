@@ -8,11 +8,11 @@ namespace RegistrationManager.Models
     {
         private DbManagerContext dbContext;
         private IRegistrationsRepository repository;
-        private UserManager<UserIdentity> userManagerIdentity;
+        private UserManager<DbUserIdentity> userManagerIdentity;
 
         public DbSeeding(DbManagerContext dbManagerContext, 
             IRegistrationsRepository registrationRepository,
-            UserManager<UserIdentity> userMangerIdentity)
+            UserManager<DbUserIdentity> userMangerIdentity)
         {
             dbContext = dbManagerContext;
             repository = registrationRepository;
@@ -24,7 +24,7 @@ namespace RegistrationManager.Models
             //Check whether the default user exists.
             if (await userManagerIdentity.FindByEmailAsync("vdettling@web.de") == null)
             {
-                var user = new UserIdentity()
+                var user = new DbUserIdentity()
                 {
                     UserName = "vdettling@web.de",
                     Email = "vdettling@web.de",
