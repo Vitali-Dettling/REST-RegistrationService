@@ -6,6 +6,6 @@ namespace RegistrationManager.Models
 {
     public interface IRegistrationsRepository
     {
-        Task<Boolean> CreateEntry(Credential newCredentials);
+        Task<Boolean> CreateEntry(Register newRegistration);
     }
 }

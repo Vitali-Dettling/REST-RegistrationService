@@ -23,8 +23,7 @@ namespace RegistrationManager.Controllers
 
         public IActionResult API()
         {
-            logger.LogInformation("No API has been called yet.");
-            //TODO: Defelaut page to get the interface descriptions.
+            logger.LogInformation("Swagger framework is being called.");
             return View();
         }
     }

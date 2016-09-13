@@ -22,8 +22,6 @@ namespace RegistrationManager.Models
             config  = configurationRoot;
         }
 
-        public DbSet<Credential> DbCredentials { get; set; }
-
         public DbSet<DbUserIdentity> DbUserIdentity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
