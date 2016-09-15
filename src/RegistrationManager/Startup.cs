@@ -69,9 +69,18 @@ namespace RegistrationManager
 
             //Inject an implementation of ISwaggerProvider with defaulted settings applied
             services.AddSwaggerGen(config =>
-            //In order to show the commends from code within the swagger API description.
-            //TODO Ask in foren whether this is supported with ASP.NET Core or not??? !!! Continoue tomorrow !!!
-            config.IncludeXmlComments(environment.ContentRootPath + "/bin/Debug/netcoreapp1.0/RegistrationManager.xml")
+            {
+                //Swagger API reads the class, method, etc. descriptions by means of the xml file.
+                //TODO the path is hard coded needs to be a relative path?
+                if (environment.IsProduction())
+                {
+                    config.IncludeXmlComments(environment.ContentRootPath + "/RegistrationManager.xml");
+                }
+                else
+                {
+                    config.IncludeXmlComments(environment.ContentRootPath + "/bin/Debug/netcoreapp1.0/RegistrationManager.xml");
+                }
+            }
             );
 
             //Injection of the IRegistrationRepository for later testing

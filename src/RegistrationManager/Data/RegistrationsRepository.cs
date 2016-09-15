@@ -18,6 +18,15 @@ namespace RegistrationManager.Models
         private DbManagerContext dbContext;
         private UserManager<DbUserIdentity> userManagerIdentity;
 
+        /// <summary>
+        /// Repository patter in order to manage everything that is related to the database.
+        /// </summary>
+        /// <param name="dbManagerContext">
+        /// Constructore injection of the database management context.
+        /// </param>
+        /// <param name="userMangerIdentity">
+        /// Constructor injection of the user management identity.
+        /// </param>
         public RegistrationsRepository(DbManagerContext dbManagerContext,
             UserManager<DbUserIdentity> userMangerIdentity)
         {
@@ -25,6 +34,16 @@ namespace RegistrationManager.Models
             userManagerIdentity = userMangerIdentity;
         }
 
+        /// <summary>
+        /// Creates a new entry in the database. 
+        /// The User Manager is required in order to store all important imformation about the user. 
+        /// </summary>
+        /// <param name="newRegistration">
+        /// Required information about the user, e.g. email, password, etc. 
+        /// </param>
+        /// <returns>
+        /// Retrurns a true when the user was stored in the databse, otherwies false. 
+        /// </returns>
         public async Task<Boolean> CreateEntry(Register newRegistration)
         {
             //TODO Make that better, is realy redundant.

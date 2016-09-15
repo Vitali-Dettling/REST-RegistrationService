@@ -67,7 +67,8 @@
             "Views",
             "web.config",
             "config.json",
-            "appsettings.json"
+            "appsettings.json",
+            "RegistrationManager.xml"
         ]
     },
 
