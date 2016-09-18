@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace RegistrationManager.Models
 {
     /// <summary>
-    /// Create a seed entry in the databse, when if was empty before. 
+    /// Create a seed entry in the databse, when it was empty before. 
     /// </summary>
     public class DbSeeding
     {
