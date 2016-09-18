@@ -15,10 +15,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RegistrationManager
 {
+    /// <summary>
+    /// This is class contains all configuration methods and properties. 
+    /// The class is divided into three parts: 
+    /// Firstly, the constructor
+    /// Secondly, the ConfigureServices method, to specify the service itself
+    /// Thirdly, the Configure method, to specify the frameworks and to start the database seeding 
+    /// </summary>
     public class Startup
     {
         private IHostingEnvironment environment;
 
+        /// <summary>
+        /// Constructor of startup.cs class, in oder to specify the hosting environment.
+        /// </summary>
+        /// <param name="env">
+        /// Hosting environment in which the service will be held, 
+        /// as well as to distinguish between developer and hosting enviroment.
+        /// </param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -33,9 +47,18 @@ namespace RegistrationManager
 
         }
 
+        /// <summary>
+        /// Returns the configuration property about the service. It is not beeing used within the service itself.
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        ///  This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">
+        /// Specificytion of how the injection should be called, 
+        /// as well as the configuration of the injections.
+        /// </param>
         public void ConfigureServices(IServiceCollection services)
         {
             //Injects also the config.json file, for example for the DB connection.
