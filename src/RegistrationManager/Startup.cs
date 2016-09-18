@@ -17,36 +17,40 @@ namespace RegistrationManager
 {
     public class Startup
     {
+        private IHostingEnvironment environment;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("config.json")
-                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)                
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            environment = env;
+
         }
 
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)// TODO* Bug is not working any more? ->, IHostingEnvironment environment)
+        public void ConfigureServices(IServiceCollection services)
         {
             //Injects also the config.json file, for example for the DB connection.
             services.AddSingleton(Configuration);
-            // Add framework services.
-           
+            
+            //Injects MCV pattern.
             services.AddMvc(config =>
             {
-#if !DEBUG //TODO* Has to change to IHostingEnvironment environment used to work but sudenly not any more, see above.
-            //  if (environment.IsProduction())
+            if (environment.IsProduction())
                 {
                     //Redirects to a https, only used in productions
-                    config.Filters.Add(new RequireHttpsAttribute());
+                    //TODO Need to be adjusted in order to get a secure https connection. 
+                    //config.Filters.Add(new RequireHttpsAttribute());
                 }
-#endif
+
             })
             .AddJsonOptions(config =>
             {   //All Json file formates will be resulved via camel cases.  
@@ -58,12 +62,26 @@ namespace RegistrationManager
             {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequiredLength = 6;
+                //TODO Do I realy need this, because the RegistrationManger API does not work with cookies anyway?
                 config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
             })
             .AddEntityFrameworkStores<DbManagerContext>();
 
             //Inject an implementation of ISwaggerProvider with defaulted settings applied
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(config =>
+            {
+                //Swagger API reads the class, method, etc. descriptions by means of the xml file.
+                //TODO the path is hard coded needs to be a relative path?
+                if (environment.IsProduction())
+                {
+                    config.IncludeXmlComments(environment.ContentRootPath + "/RegistrationManager.xml");
+                }
+                else
+                {
+                    config.IncludeXmlComments(environment.ContentRootPath + "/bin/Debug/netcoreapp1.0/RegistrationManager.xml");
+                }
+            }
+            );
 
             //Injection of the IRegistrationRepository for later testing
             services.AddScoped<IRegistrationsRepository, RegistrationsRepository>();
@@ -72,7 +90,7 @@ namespace RegistrationManager
             services.AddDbContext<DbManagerContext>();
 
             //Inject DBSeeding if needed
-            services.AddTransient<DbSeeding>();
+            services.AddTransient<DbSeeding>(); 
 
             //Injects logging possibility
             services.AddLogging();

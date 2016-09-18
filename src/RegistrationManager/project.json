@@ -23,7 +23,8 @@
             "type": "build"
         },
         "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-        "Swashbuckle": "6.0.0-beta902"
+        "Swashbuckle": "6.0.0-beta902",
+        "Microsoft.AspNetCore.Hosting.Abstractions": "1.0.0"
     },
 
     "tools": {
@@ -52,7 +53,8 @@
 
     "buildOptions": {
         "emitEntryPoint": true,
-        "preserveCompilationContext": true
+        "preserveCompilationContext": true,
+        "xmlDoc": true
     },
 
     "runtimeOptions": {
@@ -62,9 +64,11 @@
     "publishOptions": {
         "include": [
             "wwwroot",
+            "Views",
             "web.config",
             "config.json",
-            "appsettings.json"
+            "appsettings.json",
+            "RegistrationManager.xml"
         ]
     },
 
