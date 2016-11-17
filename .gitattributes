@@ -67,5 +67,4 @@
 #
 # https://github.com/github/linguist#overrides
 ###############################################################################
-# REST-RegistrationService-/Report/html/* linguist-documentation
-# *.html linguist-documentation=true
+# *.rb linguist-language=C#
