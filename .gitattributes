@@ -61,3 +61,10 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+###############################################################################
+# Will be used to determine language statistics, 
+# but will not be used to syntax highlight files.
+#
+# https://github.com/github/linguist#overrides
+###############################################################################
+# *.rb linguist-language=C#
