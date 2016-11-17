@@ -27,23 +27,6 @@ namespace test.Controllers
         {
             AuthController authController = new AuthController(loggerMock.Object, repositoryMock.Object, signInMgtMock.Object);
 
-            //using (var httpClient = new HttpClient())
-            //{
-            //    var check = JsonConvert.SerializeObject(
-            //   new { Email = "\"email\": \"vdettling@web.de\"", Password = "\"password\": \"P@ssw0rd!\"" }
-            //   );
-
-            //    var contentPost = new StringContent(check, Encoding.UTF8, "application/json");
-
-            //    return await httpClient.PostAsync(requests.GetLoginUrl(), contentPost);
-            //}
-
-    //        var check = JsonConvert.SerializeObject(
-    //new { Email = "\"email\": \"vdettling@web.de\"", Password = "\"password\": \"\"" }
-    //);
-
-    //        var contentPost = new StringContent(check, Encoding.UTF8, "application/json");
-
             Login login = new Login();
             login.Email = "vdettling@web.de";
             login.Password = "P@ssw0rd!";
