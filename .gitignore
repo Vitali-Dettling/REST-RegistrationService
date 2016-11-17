@@ -10,6 +10,7 @@ Doxygen.html - Shortcut.lnk
 
 # User-specific files
 Report/html/*
+PublishProfiles/*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
