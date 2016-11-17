@@ -68,4 +68,4 @@
 # https://github.com/github/linguist#overrides
 ###############################################################################
 # REST-RegistrationService-/Report/html/* linguist-documentation
-# docs/formatter.html linguist-documentation=true
+# *.html linguist-documentation=true
