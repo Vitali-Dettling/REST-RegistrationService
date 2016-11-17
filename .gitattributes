@@ -68,4 +68,4 @@
 # https://github.com/github/linguist#overrides
 ###############################################################################
 # REST-RegistrationService-/Report/html/* linguist-documentation
-# docs/formatter.rb linguist-documentation=false
+# docs/formatter.html linguist-documentation=false
