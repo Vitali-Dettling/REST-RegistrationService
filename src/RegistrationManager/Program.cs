@@ -8,8 +8,18 @@ using Microsoft.AspNetCore.Builder;
 
 namespace RegistrationManager
 {
+    /// <summary>
+    /// Contains the main class and the host configuration.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Main file as well as configuration file about the host environment.
+        /// Moreover, one can define the directories and the Startup.cs file.
+        /// </summary>
+        /// <param name="args">
+        /// In order to pass additional external parameters, which is currently not used. 
+        /// </param>
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()

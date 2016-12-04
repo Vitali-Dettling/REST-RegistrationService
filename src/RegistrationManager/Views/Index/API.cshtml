@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Registration Manger API";
+}
+
+<!--Darstellung of the API index page in order to know how the RegistrationManager service works.-->
+<h1>Registation manager REST API Discription.</h1>
+
+@{ 
+#if DEBUG
+    var swaggerUi = "http://localhost:60647/swagger/ui";
+    var swaggerJson = "http://localhost:60647/swagger/v1/swagger.json";
+#else
+    var swaggerUi = "http://registrationmanager-01.azurewebsites.net/swagger/ui";
+    var swaggerJson = "http://registrationmanager-01.azurewebsites.net/swagger/v1/swagger.json";
+#endif
+}
+
+<!--https://github.com/domaindrivendev/Ahoy-->
+<!--https://github.com/domaindrivendev/Swashbuckle/blob/master/README.md-->
+
+<a href=@swaggerUi target="_blank">Swagger API Description</a> 
+<br/>
+<a href=@swaggerJson target="_blank">Swagger API Json</a>
+
