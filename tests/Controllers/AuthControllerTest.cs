@@ -40,6 +40,7 @@ namespace test.Controllers
 
             //TODO!!!
 
+<<<<<<< HEAD
             //using (var httpClient = new HttpClient())
             //{
             //    var check = JsonConvert.SerializeObject(
@@ -57,6 +58,8 @@ namespace test.Controllers
 
             //        var contentPost = new StringContent(check, Encoding.UTF8, "application/json");
 
+=======
+>>>>>>> master
             Login login = new Login();
             login.Email = "";//vdettling@web.de
             login.Password = "";//P@ssw0rd!
