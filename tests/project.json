@@ -17,7 +17,7 @@
                 "type": "platform",
                 "version": "1.0.0"
             },
-            "moq.netcore": "4.4.0-beta8"
+            "Moq": "4.6.38-alpha"
         },
       "imports": [
         "dotnet5.4",

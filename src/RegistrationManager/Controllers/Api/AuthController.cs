@@ -50,8 +50,8 @@ namespace RegistrationManager.Controllers.Api
             IRegistrationsRepository registrationRepository,
             SignInManager<DbUserIdentity> signInManager)
         {
-            repository = registrationRepository;
             logger = loggerFactory;
+            repository = registrationRepository;
             signInMgt = signInManager;
         }
 
