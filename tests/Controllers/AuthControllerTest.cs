@@ -59,7 +59,11 @@ namespace test.Controllers
             //        var contentPost = new StringContent(check, Encoding.UTF8, "application/json");
 
 =======
+<<<<<<< HEAD
 >>>>>>> master
+=======
+>>>>>>> xUnitTests
+>>>>>>> xUnitTests
             Login login = new Login();
             login.Email = "";//vdettling@web.de
             login.Password = "";//P@ssw0rd!
